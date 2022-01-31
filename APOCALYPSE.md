@@ -4,9 +4,13 @@
 
 The apocalypse happens 13 rounds after it has been triggered. A player may still win during these turns. 
 
+### Countdown 
+
 To count the rounds of the apocalypse, the player who triggered it takes a tzompantli and fills it with 12 skulls.Each round after the apocalypse has been triggered, when the player with the tzompantli's turn comes up, they remove one skull to count down the number of rounds until the end of the game. 
 
-The apocalypse may be forestalled if the sacrifices to the two Templo Mayor gods are exactly even. While the apocalypse is forestalled, no skulls are removed from the tzompantli counter. The countdown resumes when the number of skulls is uneven in favor of either God. The game ends when the countdown reaches zero. 
+### Forestalling the Apocalypse
+
+The apocalypse cannot be stopped, but it may be forestalled if the sacrifices to the two Templo Mayor gods are exactly even. While the apocalypse is forestalled, no skulls are removed from the tzompantli counter. The countdown resumes when the number of skulls is uneven in favor of either God. The game ends when the countdown reaches zero. 
 
 Once it has been triggered, the apocalypse will always happen in one of two ways: a flood, or a war, depending on which god has been given the least sacrifices. 
 

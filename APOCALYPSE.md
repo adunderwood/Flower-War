@@ -16,7 +16,7 @@ No more skulls can be collected from tiles due to flooding. Skulls can only be o
 
 ## Cortez' Invasion:
 
-Each player battles against Cortez' invasion force every turn throughout the apocalypse by rolling 1D against Cortez. Due to thier superior weaponry, Cortez' army always rolls a 5. Skulls lost to Cortez in battle are removed from play and cannot be sacrificed. Skulls won in battle are picked up from the current tzompantli. Cards and bonuses still apply. 
+Each player battles against Cortez' invasion force every turn throughout the apocalypse by rolling 1D against Cortez. Due to thier superior weaponry, Cortez' army always rolls a 5. Skulls lost to Cortez in battle are removed from play and cannot be sacrificed. Cards and bonuses still apply. 
 
 ### Apocalypse Effects
 

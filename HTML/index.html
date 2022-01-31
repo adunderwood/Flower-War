@@ -37,15 +37,25 @@
             player.space = 0
 
             var players = []
+            var totalBattles = 0
 
             var turn = 0;
             function init() {
-                initPlayers()
-
-                updateTurn(turn)
 
                 var battleModal = document.getElementById("battle-modal")
                 battleModal.style.display = "none"
+
+                
+                initPlayers()
+
+                updateTurn(turn)
+            }
+
+            function initPlayersSel() {
+                var selEl = document.getElementById("selNumPlayers")
+                val = selEl.value
+                initPlayers(val - 1)
+
             }
 
             function updateTurn(n) {
@@ -55,7 +65,7 @@
                 
                 var turnEl = document.getElementById("currentTurn")
                 var playerEl = document.getElementById("currentPlayer")
-                turnEl.innerHTML = n + 1
+                turnEl.innerHTML = Math.ceil((n + 1) / numPlayers) + ' <span class="total-turns" style="font-size: 14px;">(' + (n + 1) + ")</span>"
                 playerEl.innerHTML = player
 
                 tmp = players[player - 1]
@@ -230,18 +240,23 @@
                 playerEl.remove()
 
                 // generate new space number
+                /*
                 var newSpace = curPos - 1
-                if (newSpace < 1) { newSpace = 20 }
-                if (newSpace > 20) { newSpace = 1 }
+                if (newSpace < 1) { newSpace = 20 - newSpace }
+                if (newSpace > 20) { newSpace = 1 + newSPace }
+                */
 
                 // random
-                var rand = Math.floor(Math.random() * 6) + 1;
+                var rand = Math.floor(Math.random() * 7) + 1;
                 var newSpace = curPos - rand
 
+                console.log(newSpace)
 
                 // var newSpace = curPos - 1
-                if (newSpace < 1) { newSpace = 20 }
-                if (newSpace > 20) { newSpace = 1 }
+                if (newSpace < 1) { newSpace = 20 - (newSpace * -1) }
+                if (newSpace > 20) { newSpace = 1 + newSpace }
+
+                console.log(newSpace)
 
                 // add player to the new space
                 updatePlayer(player, newSpace)
@@ -310,7 +325,10 @@
                 var el = document.getElementById(htmlID)
 
                 var retval = parseInt(el.value) + 1
-                if (retval > 13) { retval = 1 }
+                if (retval > 13) { 
+                    alert("Day count reached! Space: " + space)
+                    retval = 1 
+                }
                 el.value = retval
                 //alert(els[0])
             }
@@ -412,6 +430,11 @@
                 elBtnA.disabled = false
                 elBtnB.disabled = false
 
+                // Re-disable close button
+                var btnClose = document.getElementById("btnCloseBattleModal")
+                btnClose.disabled = true
+
+
                 // make sure that there are two players in the battle
                 // check for three and four later
                 if (player1 && player2) {
@@ -450,7 +473,7 @@
                     case "A":
 
                         // random
-                        var rand = Math.floor(Math.random() * 6) + 1;                        
+                        var rand = Math.floor(Math.random() * 7) + 1;                        
                         var el = document.getElementById("rollPlayerA")
                         el.value = rand
                         playerA = rand
@@ -461,7 +484,7 @@
                         break
                     case "B":
                         // random
-                        var rand = Math.floor(Math.random() * 6) + 1;                        
+                        var rand = Math.floor(Math.random() * 7) + 1;                        
                         var el = document.getElementById("rollPlayerB")
                         el.value = rand
                         playerB = rand
@@ -494,7 +517,11 @@
                         elMsg.innerHTML = "Player " + elPlayerA.value + " wins! "  //score
 
                         skullsPlayerA.value = parseInt(skullsPlayerA.value) + 1 //score
-                        skullsPlayerB.value = parseInt(skullsPlayerB.value) - 1 //score
+
+                        var tmpVal = parseInt(skullsPlayerB.value) - 1
+                        if (tmpVal < 0) { tmpVal = 0 } // don't go under zero
+
+                        skullsPlayerB.value = tmpVal //score
                         
                         // save values
                         tmpPlayerA.skulls = skullsPlayerA.value
@@ -504,13 +531,17 @@
                         players[parseInt(elPlayerB.value) - 1] = tmpPlayerB
                         
                         winner = 1
+                        totalBattles = totalBattles + 1
                     } else {
                         if (score < 0) {
                             // player B wins
 
                             elMsg.innerHTML = "Player " + elPlayerB.value + " wins! " //(score * -1)
 
-                            skullsPlayerA.value = parseInt(skullsPlayerA.value) - 1 //score
+                            var tmpVal = parseInt(skullsPlayerA.value) - 1
+                            if (tmpVal < 0) { tmpVal = 0 } // don't go under zero
+
+                            skullsPlayerA.value = tmpVal //score
                             skullsPlayerB.value = parseInt(skullsPlayerB.value) + 1 // score
                             
                             // save values
@@ -521,11 +552,19 @@
                             players[parseInt(elPlayerB.value) - 1] = tmpPlayerB
                             
                             winner = 2
+
+                            totalBattles = totalBattles + 1
                         } else {
                             // tie
                             elMsg.innerHTML = "The battle ends in a tie."
+
+                            totalBattles = totalBattles + 1
                         }
                     }
+
+                    // update total battles
+                    var ttl = document.getElementById("totalPlayerBattles")
+                    ttl.innerHTML = totalBattles
 
                     // update current player score
                     var currentPlayerScore = document.getElementById("currentPlayerSkulls")
@@ -610,7 +649,7 @@
 
             <div class="players">
                 <label for="selNumPlayers">Number of Players</label>
-                <select id="selNumPlayers" class="numPlayers">
+                <select id="selNumPlayers" class="numPlayers" onchange="initPlayersSel()">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -623,6 +662,7 @@
             <h2 class="current-player">Player <span id="currentPlayer"></span></h2>
             <h3 class="current-player-skulls">Skulls <span id="currentPlayerSkulls">0</span></h2>
             
+            <h3 class="current-player-skulls">Total Battles <span id="totalPlayerBattles">0</span></h2>
 
             <form class="actions">
                 <input id="btnCollectSkull" type="button" value="Collect Skull" onclick="collectSkull()">
